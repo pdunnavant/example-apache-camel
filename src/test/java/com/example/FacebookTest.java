@@ -16,10 +16,12 @@ public class FacebookTest extends CamelSpringTestSupport {
 	protected AbstractApplicationContext createApplicationContext() {
 		return new ClassPathXmlApplicationContext("facebook.xml");
 	}
-	
+
 	@Test
 	public void testFacebookRout() throws Exception {
-		String token = "";
+		// This will probably need to be updated with a token attached to the example URLs at this URL:
+		// https://developers.facebook.com/docs/reference/api/
+		String token = "AAAAAAITEghMBAK0flkC7eEaxSqtKFwPoOMJsUfiwyyRZBCbHe1SSSFNJZCleUlFpZBxZAqsMyLfx6ZBtIYZBKi3V465VYBIcZAkPSJ7P4u3cAZDZD";
 		token = URLEncoder.encode(token, "UTF-8");
 		MockEndpoint endPoint = getMockEndpoint("mock:finish");
 		endPoint.setExpectedMessageCount(1);
