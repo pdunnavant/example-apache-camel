@@ -58,6 +58,17 @@
 			<artifactId>camel-http</artifactId>
 			<version>${version.camel}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-cxf</artifactId>
+			<version>${version.camel}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${version.cxf}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -78,8 +89,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>${targetJdk}</source>
-					<target>${targetJdk}</target>
+					<source>${version.jdk}</source>
+					<target>${version.jdk}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -87,14 +98,20 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>8.0.1.v20110908</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-maven-plugin</artifactId>
+				<version>${version.camel}</version>
+			</plugin>
 		</plugins>
 	</build>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<targetJdk>1.6</targetJdk>
+		<version.jdk>1.6</version.jdk>
 		<version.junit>4.8.2</version.junit>
 		<version.mockito>1.8.5</version.mockito>
 		<version.camel>2.8.2</version.camel>
+		<version.cxf>2.4.3</version.cxf>
 	</properties>
 </project>

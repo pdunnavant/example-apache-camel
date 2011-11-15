@@ -3,23 +3,52 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:cxf="http://camel.apache.org/schema/cxf"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://camel.apache.org/schema/spring
-		http://camel.apache.org/schema/spring/camel-spring.xsd">
+		http://camel.apache.org/schema/spring/camel-spring.xsd
+		http://camel.apache.org/schema/cxf
+		http://camel.apache.org/schema/cxf/camel-cxf.xsd
+		http://cxf.apache.org/jaxrs
+		http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
+
+<!--
+	<cxf:rsServer id="rsServer" address="http://localhost:${CXFTestSupport.port1}/CxfRsRouterTest/route"
+		serviceClass="org.apache.camel.component.cxf.jaxrs.testbean.CustomerService"/>
+-->
+
+	<bean id="configuratorDataProcessor" class="com.example.ConfiguratorDataProcessor"/>
+
+	<bean id="configuratorResource" class="com.example.ConfiguratorResource"/>
+
+	<jaxrs:server id="configuratorService" address="http://localhost:9000/">
+		<jaxrs:serviceBeans>
+			<ref bean="configuratorResource"/>
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
 
 	<camelContext id="camel" trace="false" xmlns="http://camel.apache.org/schema/spring">
+		<package>com.example</package>
+	</camelContext>
+
+	<!--camelContext id="camel" trace="false" xmlns="http://camel.apache.org/schema/spring">
 		<route>
 			<from uri="direct:start"/>
 			<setHeader headerName="CamelHttpUri">
-				<!-- model can be a6/a7/a8 -->
 				<simple>http://models.audiusa.com/services/carlines/${header.Model}/experience.json</simple>
 			</setHeader>
 			<to uri="http://models.audiusa.com/"/>
 			<convertBodyTo type="java.lang.String"/>
-			<to uri="log:ConfiguratorDump"/>
+			<process ref="configuratorDataProcessor"/>
 			<to uri="mock:finish"/>
 		</route>
-	</camelContext>
+	</camelContext-->
 </beans>
